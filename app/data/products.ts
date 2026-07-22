@@ -7,6 +7,7 @@ export type Product = {
   originalPrice?: number;
   sizes: string[];
   tag?: string;
+  stock: number;
 };
 
 export const products: Product[] = [
@@ -19,6 +20,7 @@ export const products: Product[] = [
     originalPrice: 270000,
     sizes: ["5ml", "10ml", "100ml"],
     tag: "-28%",
+    stock: 4,
   },
   {
     id: "khamrah",
@@ -29,6 +31,7 @@ export const products: Product[] = [
     originalPrice: 210000,
     sizes: ["5ml", "10ml", "100ml"],
     tag: "-21%",
+    stock: 9,
   },
   {
     id: "sauvage-elixir",
@@ -37,6 +40,7 @@ export const products: Product[] = [
     category: "Hombre",
     price: 520000,
     sizes: ["5ml", "10ml", "60ml"],
+    stock: 12,
   },
   {
     id: "good-girl",
@@ -47,6 +51,7 @@ export const products: Product[] = [
     originalPrice: 560000,
     sizes: ["5ml", "10ml", "80ml"],
     tag: "-14%",
+    stock: 3,
   },
   {
     id: "asad",
@@ -56,6 +61,7 @@ export const products: Product[] = [
     price: 175000,
     sizes: ["5ml", "10ml", "100ml"],
     tag: "Nuevo",
+    stock: 15,
   },
   {
     id: "baccarat-rouge",
@@ -64,6 +70,7 @@ export const products: Product[] = [
     category: "Unisex",
     price: 550000,
     sizes: ["5ml", "10ml", "70ml"],
+    stock: 6,
   },
   {
     id: "libre",
@@ -74,6 +81,7 @@ export const products: Product[] = [
     originalPrice: 510000,
     sizes: ["5ml", "10ml", "90ml"],
     tag: "-12%",
+    stock: 2,
   },
   {
     id: "aventus",
@@ -83,5 +91,6 @@ export const products: Product[] = [
     price: 550000,
     sizes: ["5ml", "10ml", "100ml"],
     tag: "Nicho",
+    stock: 8,
   },
 ];

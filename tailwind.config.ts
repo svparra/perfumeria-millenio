@@ -9,9 +9,9 @@ const config: Config = {
         cream: "#faf6ee",
         sand: "#f0e8d8",
         emerald: {
-          DEFAULT: "#0d3b2e",
-          light: "#155744",
-          dark: "#082720",
+          DEFAULT: "#0a7d3a",
+          light: "#12a04c",
+          dark: "#063f1e",
         },
         gold: {
           DEFAULT: "#c8a24a",
@@ -25,7 +25,16 @@ const config: Config = {
       },
       backgroundImage: {
         "hero-radial":
-          "radial-gradient(ellipse at top right, rgba(200,162,74,0.18), transparent 55%), radial-gradient(ellipse at bottom left, rgba(21,87,68,0.35), transparent 50%)",
+          "radial-gradient(ellipse at top right, rgba(200,162,74,0.2), transparent 55%), radial-gradient(ellipse at bottom left, rgba(10,125,58,0.45), transparent 50%)",
+      },
+      keyframes: {
+        "pop-in": {
+          "0%": { transform: "scale(0.9)", opacity: "0" },
+          "100%": { transform: "scale(1)", opacity: "1" },
+        },
+      },
+      animation: {
+        "pop-in": "pop-in 0.2s ease-out",
       },
     },
   },
