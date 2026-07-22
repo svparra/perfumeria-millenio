@@ -3,6 +3,7 @@
 import { useState } from "react";
 import ProductCard from "./ProductCard";
 import CountdownTimer from "./CountdownTimer";
+import { StaggerGroup, StaggerItem } from "./motion";
 import { products } from "../data/products";
 
 const filters = ["Todos", "Mujer", "Hombre", "Unisex"] as const;
@@ -59,11 +60,13 @@ export default function FeaturedProducts() {
           ))}
         </div>
 
-        <div className="grid grid-cols-2 gap-4 sm:gap-6 md:grid-cols-3 lg:grid-cols-4">
+        <StaggerGroup key={filter} className="grid grid-cols-2 gap-4 sm:gap-6 md:grid-cols-3 lg:grid-cols-4">
           {visibleProducts.map((product) => (
-            <ProductCard key={product.id} product={product} />
+            <StaggerItem key={product.id}>
+              <ProductCard product={product} />
+            </StaggerItem>
           ))}
-        </div>
+        </StaggerGroup>
 
         {visibleProducts.length === 0 && (
           <p className="py-12 text-center text-sm text-ink/50">

@@ -2,7 +2,12 @@ import type { Metadata } from "next";
 import { Playfair_Display, Inter } from "next/font/google";
 import "./globals.css";
 import { CartProvider } from "./components/CartProvider";
+import CartDrawer from "./components/CartDrawer";
+import { QuickViewProvider } from "./components/QuickViewProvider";
+import QuickViewModal from "./components/QuickViewModal";
 import FloatingWhatsApp from "./components/FloatingWhatsApp";
+import SmoothScroll from "./components/SmoothScroll";
+import StickyMobileBar from "./components/StickyMobileBar";
 
 const display = Playfair_Display({
   subsets: ["latin"],
@@ -28,10 +33,16 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es">
-      <body className={`${display.variable} ${sans.variable} font-sans antialiased bg-cream text-ink`}>
+      <body className={`${display.variable} ${sans.variable} font-sans antialiased bg-cream text-ink pb-16 sm:pb-0`}>
         <CartProvider>
-          {children}
-          <FloatingWhatsApp />
+          <QuickViewProvider>
+            <SmoothScroll />
+            {children}
+            <FloatingWhatsApp />
+            <StickyMobileBar />
+            <QuickViewModal />
+            <CartDrawer />
+          </QuickViewProvider>
         </CartProvider>
       </body>
     </html>

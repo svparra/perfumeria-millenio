@@ -2,24 +2,21 @@
 
 import { useState } from "react";
 import PerfumeGlyph from "./PerfumeGlyph";
+import RatingStars from "./RatingStars";
 import { useCart } from "./CartProvider";
+import { useQuickView } from "./QuickViewProvider";
+import { formatCOP } from "../lib/format";
 import type { Product } from "../data/products";
-
-const formatCOP = (value: number) =>
-  new Intl.NumberFormat("es-CO", {
-    style: "currency",
-    currency: "COP",
-    maximumFractionDigits: 0,
-  }).format(value);
 
 export default function ProductCard({ product }: { product: Product }) {
   const { addItem } = useCart();
+  const { open } = useQuickView();
   const [selectedSize, setSelectedSize] = useState(product.sizes[0]);
   const [wishlisted, setWishlisted] = useState(false);
   const [justAdded, setJustAdded] = useState(false);
 
   const handleAdd = () => {
-    addItem();
+    addItem(product.id, selectedSize);
     setJustAdded(true);
     window.setTimeout(() => setJustAdded(false), 1600);
   };
@@ -51,11 +48,19 @@ export default function ProductCard({ product }: { product: Product }) {
           </svg>
         </button>
         <PerfumeGlyph className="h-24 w-24 text-emerald/70 transition group-hover:scale-105" />
+
+        <button
+          onClick={() => open(product)}
+          className="absolute inset-x-3 bottom-3 translate-y-2 rounded-full bg-ink/85 py-2 text-xs font-semibold uppercase tracking-wide text-white opacity-0 transition-all duration-200 group-hover:translate-y-0 group-hover:opacity-100"
+        >
+          Vista rápida
+        </button>
       </div>
 
       <div className="flex flex-1 flex-col gap-2 p-5">
         <p className="text-xs font-semibold uppercase tracking-wide text-gold-dark">{product.brand}</p>
         <h3 className="font-display text-base font-semibold leading-snug text-ink">{product.name}</h3>
+        <RatingStars rating={product.rating} reviewCount={product.reviewCount} />
 
         <div className="mt-1 flex flex-wrap gap-1.5">
           {product.sizes.map((s) => (

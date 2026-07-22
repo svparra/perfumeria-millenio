@@ -1,3 +1,5 @@
+import { Reveal, StaggerGroup, StaggerItem } from "./motion";
+
 const testimonials = [
   {
     quote:
@@ -34,29 +36,28 @@ function Stars() {
 export default function Testimonials() {
   return (
     <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6">
-      <div className="mb-10 text-center">
+      <Reveal className="mb-10 text-center">
         <span className="text-xs font-semibold uppercase tracking-[0.3em] text-gold-dark">
           Clientes Millenio
         </span>
         <h2 className="mt-2 font-display text-3xl font-semibold text-ink sm:text-4xl">
           Lo que dicen de nosotros
         </h2>
-      </div>
+      </Reveal>
 
-      <div className="grid gap-6 md:grid-cols-3">
+      <StaggerGroup className="grid gap-6 md:grid-cols-3">
         {testimonials.map((t) => (
-          <figure
-            key={t.name}
-            className="flex flex-col gap-4 rounded-2xl border border-black/5 bg-white p-6"
-          >
-            <Stars />
-            <blockquote className="text-sm leading-relaxed text-ink/75">“{t.quote}”</blockquote>
-            <figcaption className="mt-auto text-xs font-semibold uppercase tracking-wide text-ink/50">
-              {t.name} · {t.source}
-            </figcaption>
-          </figure>
+          <StaggerItem key={t.name}>
+            <figure className="flex h-full flex-col gap-4 rounded-2xl border border-black/5 bg-white p-6">
+              <Stars />
+              <blockquote className="text-sm leading-relaxed text-ink/75">“{t.quote}”</blockquote>
+              <figcaption className="mt-auto text-xs font-semibold uppercase tracking-wide text-ink/50">
+                {t.name} · {t.source}
+              </figcaption>
+            </figure>
+          </StaggerItem>
         ))}
-      </div>
+      </StaggerGroup>
     </section>
   );
 }

@@ -1,7 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useCart } from "./CartProvider";
+import { useQuickView } from "./QuickViewProvider";
+import { products } from "../data/products";
+import { formatCOP } from "../lib/format";
 
 const navLinks = [
   { label: "Ofertas", href: "#ofertas" },
@@ -13,8 +16,23 @@ const navLinks = [
 ];
 
 export default function Header() {
-  const { count } = useCart();
+  const { count, openCart } = useCart();
+  const { open } = useQuickView();
   const [searchOpen, setSearchOpen] = useState(false);
+  const [query, setQuery] = useState("");
+
+  const results = useMemo(() => {
+    const q = query.trim().toLowerCase();
+    if (!q) return [];
+    return products
+      .filter((p) => `${p.brand} ${p.name}`.toLowerCase().includes(q))
+      .slice(0, 5);
+  }, [query]);
+
+  const closeSearch = () => {
+    setSearchOpen(false);
+    setQuery("");
+  };
 
   return (
     <header className="sticky top-0 z-50 border-b border-black/5 bg-cream/90 backdrop-blur">
@@ -41,25 +59,59 @@ export default function Header() {
         </nav>
 
         <div className="flex items-center gap-2 sm:gap-4">
-          {searchOpen && (
-            <input
-              autoFocus
-              type="search"
-              placeholder="Buscar perfume o marca…"
-              onBlur={() => setSearchOpen(false)}
-              className="hidden w-48 rounded-full border border-black/10 bg-white px-4 py-2 text-sm outline-none focus:border-emerald sm:block"
-            />
-          )}
-          <button
-            aria-label="Buscar"
-            onClick={() => setSearchOpen((v) => !v)}
-            className="rounded-full p-2 text-ink/70 transition hover:bg-black/5 hover:text-emerald"
-          >
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
-              <circle cx="11" cy="11" r="7" />
-              <path d="m20 20-3.5-3.5" strokeLinecap="round" />
-            </svg>
-          </button>
+          <div className="relative">
+            {searchOpen && (
+              <div className="absolute right-0 top-full mt-2 w-72 rounded-2xl border border-black/5 bg-white p-2 shadow-xl sm:w-80">
+                <input
+                  autoFocus
+                  type="search"
+                  value={query}
+                  onChange={(e) => setQuery(e.target.value)}
+                  placeholder="Buscar perfume o marca…"
+                  className="w-full rounded-xl border border-black/10 bg-white px-4 py-2 text-sm outline-none focus:border-emerald"
+                />
+                {query.trim() && (
+                  <ul className="mt-2 max-h-72 overflow-y-auto">
+                    {results.length === 0 && (
+                      <li className="px-3 py-4 text-center text-xs text-ink/40">Sin resultados</li>
+                    )}
+                    {results.map((p) => (
+                      <li key={p.id}>
+                        <button
+                          onClick={() => {
+                            open(p);
+                            closeSearch();
+                          }}
+                          className="flex w-full items-center justify-between gap-3 rounded-xl px-3 py-2 text-left hover:bg-black/[0.04]"
+                        >
+                          <span>
+                            <span className="block text-[11px] font-semibold uppercase text-gold-dark">
+                              {p.brand}
+                            </span>
+                            <span className="block text-sm text-ink">{p.name}</span>
+                          </span>
+                          <span className="shrink-0 text-xs font-semibold text-emerald">
+                            {formatCOP(p.price)}
+                          </span>
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+            )}
+            <button
+              aria-label="Buscar"
+              onClick={() => setSearchOpen((v) => !v)}
+              className="rounded-full p-2 text-ink/70 transition hover:bg-black/5 hover:text-emerald"
+            >
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
+                <circle cx="11" cy="11" r="7" />
+                <path d="m20 20-3.5-3.5" strokeLinecap="round" />
+              </svg>
+            </button>
+          </div>
+
           <button
             aria-label="Cuenta"
             className="hidden rounded-full p-2 text-ink/70 transition hover:bg-black/5 hover:text-emerald sm:block"
@@ -71,6 +123,7 @@ export default function Header() {
           </button>
           <button
             aria-label="Carrito"
+            onClick={openCart}
             className="relative rounded-full p-2 text-ink/70 transition hover:bg-black/5 hover:text-emerald"
           >
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">

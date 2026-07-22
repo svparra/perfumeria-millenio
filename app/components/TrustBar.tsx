@@ -1,3 +1,5 @@
+import { StaggerGroup, StaggerItem } from "./motion";
+
 const badges = [
   {
     title: "Garantía",
@@ -44,9 +46,9 @@ const badges = [
 export default function TrustBar() {
   return (
     <section className="border-b border-black/5 bg-white">
-      <div className="mx-auto grid max-w-7xl grid-cols-2 gap-6 px-4 py-10 sm:px-6 lg:grid-cols-4">
+      <StaggerGroup className="mx-auto grid max-w-7xl grid-cols-2 gap-6 px-4 py-10 sm:px-6 lg:grid-cols-4">
         {badges.map((b) => (
-          <div key={b.title} className="flex items-start gap-3">
+          <StaggerItem key={b.title} className="flex items-start gap-3">
             <svg
               viewBox="0 0 24 24"
               className="h-9 w-9 shrink-0 text-emerald"
@@ -58,9 +60,9 @@ export default function TrustBar() {
               <p className="font-display text-base font-semibold text-ink">{b.title}</p>
               <p className="text-sm text-ink/60">{b.desc}</p>
             </div>
-          </div>
+          </StaggerItem>
         ))}
-      </div>
+      </StaggerGroup>
     </section>
   );
 }
